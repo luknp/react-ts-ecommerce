@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Routes from 'Routes';
 import { ThemeProvider } from '@material-ui/core/styles';
-import customTheme from 'styles/customTheme';
+import customTheme, { saveColorsIntoCss } from 'styles/customTheme';
 
 function App() {
+  const darkMode = true; //dd from Context
+  useEffect(() => {
+    saveColorsIntoCss(darkMode);
+  }, [darkMode]);
+
   return (
-    <ThemeProvider theme={customTheme(true)}>
+    <ThemeProvider theme={customTheme(darkMode)}>
       <Routes />
     </ThemeProvider>
   );

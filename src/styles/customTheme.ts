@@ -1,7 +1,9 @@
 import { createTheme } from '@material-ui/core/styles';
 
+type ColorType = 'light' | 'dark';
+
 export const colorsLight = {
-  type: 'light',
+  type: 'light' as ColorType,
   primary: {
     light: '#33ab9f',
     main: '#009688',
@@ -23,7 +25,9 @@ export const colorsLight = {
   },
 };
 
-export const colorsDark = {
+type ColorPalette = typeof colorsLight;
+
+export const colorsDark: ColorPalette = {
   type: 'dark',
   primary: {
     light: '#33ab9f',
@@ -117,3 +121,25 @@ const customTheme = (isDarkMode: boolean) =>
   });
 
 export default customTheme;
+
+export const saveColorsIntoCss = (isDarkMode: boolean) => {
+  const colorPalette = getColorPalette(isDarkMode);
+  for (const key in colorPalette) {
+    const value = colorPalette[key as keyof ColorPalette];
+    if (typeof value === 'object') {
+      for (const key2 in value) {
+        const value2 = value[key2 as keyof typeof value];
+        saveVarIntoCss(`--color-${key}-${key2}`, value2);
+      }
+    } else {
+      saveVarIntoCss(`--color-${key}`, value);
+    }
+  }
+};
+
+const saveVarIntoCss = (key: string, value: string) => {
+  const body = document.querySelector('body');
+  if (body) {
+    body.style.setProperty(key, value);
+  }
+};
