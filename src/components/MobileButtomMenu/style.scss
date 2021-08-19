@@ -1,0 +1,32 @@
+.buttom-menu-container {
+  width: 100vw;
+  bottom: 0;
+  background-color: rgb(51, 51, 51);
+  position: fixed;
+  color: white;
+  .menu {
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0.5rem 0;
+    margin-bottom: 0.3rem;
+
+    .menu-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      button {
+        padding: 0;
+      }
+      p {
+        margin: 0;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .buttom-menu-container {
+    display: none;
+  }
+}
