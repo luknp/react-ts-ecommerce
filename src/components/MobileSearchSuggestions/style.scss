@@ -1,0 +1,45 @@
+.mobile-search-suggestions-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: white;
+  border-top: none;
+  background-color: rgb(51, 51, 51);
+  p {
+    font-weight: 900;
+    margin: 1rem 0.5rem 0.2rem 0.5rem;
+  }
+  .suggestion {
+    display: flex;
+    align-items: center;
+    word-break: break-word;
+    overflow: hidden;
+    padding-left: 0.5rem;
+    margin-bottom: 0.1rem;
+    padding: 0.5rem 1rem;
+    .suggestion-row {
+      display: flex;
+      flex-direction: column;
+      width: calc(100% - 40px);
+    }
+    span {
+      font-size: 1rem;
+      text-transform: capitalize;
+      overflow: hidden;
+      font-size: 0.8rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .suggestion-row-extra-info {
+      color: rgb(170, 162, 162);
+      font-size: 0.8rem;
+    }
+
+    svg {
+      margin-left: auto;
+      height: 2rem;
+    }
+  }
+}
