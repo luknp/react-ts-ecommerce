@@ -16,13 +16,6 @@ export const colorsLight = {
     dark: '#fff',
     contrastText: '#fff',
   },
-  background: {
-    paper: '#fff',
-    default: '#00968810',
-  },
-  text: {
-    primary: 'rgba(0, 0, 0, 0.87)',
-  },
 };
 
 type ColorPalette = typeof colorsLight;
@@ -40,13 +33,6 @@ export const colorsDark: ColorPalette = {
     main: '#e4fffd',
     dark: '#fff',
     contrastText: '#fff',
-  },
-  background: {
-    paper: '#424242',
-    default: '#333',
-  },
-  text: {
-    primary: '#fff',
   },
 };
 
@@ -67,10 +53,6 @@ const customTheme = (isDarkMode: boolean) =>
       },
       secondary: {
         main: getColorPalette(isDarkMode).secondary.main,
-      },
-      background: {
-        paper: getColorPalette(isDarkMode).background.paper,
-        default: getColorPalette(isDarkMode).background.default,
       },
     },
     overrides: {

@@ -1,17 +1,11 @@
 import React from 'react';
 import { Badge as BadgeBase } from '@material-ui/core';
 import { useTheme, makeStyles } from '@material-ui/styles';
-import { getColor, createStyled } from 'utils/material-ui';
+import { getColor } from 'utils/material-ui';
 import { Theme } from '@material-ui/core/styles';
 import classnames from 'classnames';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  badge: {
-    fontWeight: 600,
-    height: 16,
-    minWidth: 16,
-  },
-}));
+/* eslint-disable react/prop-types */ // TODO: upgrade to latest eslint tooling
 
 type Props = {
   colorBrightness?: string;
@@ -20,27 +14,27 @@ type Props = {
 };
 
 const Badge: React.FC<Props> = ({ colorBrightness, color, children, ...props }) => {
-  const classes = useStyles();
   const theme: Theme = useTheme();
-  const Styled = createStyled({
+
+  const useStyles = makeStyles((theme: Theme) => ({
     badge: {
+      fontWeight: 600,
+      height: 16,
+      minWidth: 16,
       backgroundColor: getColor(color, theme, colorBrightness),
     },
-  });
+  }));
+  const classes = useStyles();
 
   return (
-    <Styled>
-      {styledProps => (
-        <BadgeBase
-          classes={{
-            badge: classnames(classes.badge, styledProps.classes.badge),
-          }}
-          {...props}
-        >
-          {children}
-        </BadgeBase>
-      )}
-    </Styled>
+    <BadgeBase
+      classes={{
+        badge: classnames(classes.badge),
+      }}
+      {...props}
+    >
+      {children}
+    </BadgeBase>
   );
 };
 
