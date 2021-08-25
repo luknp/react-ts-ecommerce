@@ -14,6 +14,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import ClearIcon from '@material-ui/icons/Clear';
+
+import MobileSearchSuggestions from 'components/MobileSearchSuggestions';
 import './style.scss';
 
 export default function MobileHeader() {
@@ -29,7 +31,7 @@ export default function MobileHeader() {
     isArrowBack = true;
   }
   const handleInputOnlick = () => {
-    history.push(`/app/shop/search`);
+    // history.push(`/app/shop/search`);
     setIsSearch(true);
     setIsTyping(true);
   };
@@ -58,32 +60,70 @@ export default function MobileHeader() {
   }
 
   return (
-    <div className='mobile-search-header-container'>
-      <form className='search-container' onSubmit={handleSubmit}>
-        {isArrowBack && <ArrowBackIosIcon onClick={handleBack} />}
-        <input
-          id='auto'
-          onClick={handleInputOnlick}
-          autoComplete='off'
-          placeholder='Search...'
-          className='search-input'
-          value={searchPhrase}
-          onChange={handleInputOchange}
-          ref={inputElement}
-        />
-        {isTyping ? (
-          <button type='button' className='favorite-button' onClick={handleClearInput} value='Cancel'>
-            <ClearIcon />
+    <>
+      <div className='mobile-search-header-container'>
+        <form className='search-container' onSubmit={handleSubmit}>
+          {isArrowBack && <ArrowBackIosIcon onClick={handleBack} />}
+          <input
+            id='auto'
+            onClick={handleInputOnlick}
+            autoComplete='off'
+            placeholder='Search...'
+            className='search-input'
+            value={searchPhrase}
+            onChange={handleInputOchange}
+            ref={inputElement}
+          />
+          {isTyping ? (
+            <button type='button' className='favorite-button' onClick={handleClearInput} value='Cancel'>
+              <ClearIcon />
+            </button>
+          ) : (
+            <button className='favorite-button'>
+              <StarBorderIcon />
+            </button>
+          )}
+          <button type='submit' className='search-button'>
+            <SearchIcon />
           </button>
-        ) : (
-          <button className='favorite-button'>
-            <StarBorderIcon />
-          </button>
-        )}
-        <button type='submit' className='search-button'>
-          <SearchIcon />
-        </button>
-      </form>
-    </div>
+        </form>
+      </div>
+      <div className='suggestion-container'>
+        <MobileSearchSuggestions searchPhrase={searchPhrase} lastSearchedPhrase={arr} popularPhrase={arr} allPhrase={arr} />
+      </div>
+    </>
   );
 }
+
+const arr = [
+  {
+    name: 'bulbasaur 2 wsde      dsssssssssdsf fdsf fdsafvd edsfdcx  sfdsxffds',
+    category: 'Elektronika i Urządzenia przemysłowe',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
+  },
+  {
+    name: 'ivysaur',
+    category: 'Elektronika',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png',
+  },
+  {
+    name: 'venusaur',
+    category: 'Elektronika',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png',
+  },
+  {
+    name: 'charmander',
+    category: 'Elektronika',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
+  },
+  {
+    name: 'charmeleon',
+    category: 'Elektronika',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png',
+  },
+  {
+    name: 'charmeleon2',
+    category: 'Elektronika',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png',
+  },
+];

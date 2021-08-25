@@ -42,4 +42,9 @@
       height: 2rem;
     }
   }
+  .suggestion.clear-hide {
+    svg {
+      visibility: hidden;
+    }
+  }
 }
