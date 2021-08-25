@@ -28,17 +28,22 @@ Props) {
     console.log(phrase);
   };
 
-  if (searchPhrase) {
+  function Sugestions(headerName: string, phrases: Array<ProductPhrase>, allowDelete: boolean) {
     return (
       <div className='mobile-search-suggestions-container'>
-        {allPhrase.length > 0 && (
+        {phrases.length > 0 && (
           <>
-            <p>WYSZUKIWANIA</p>
-            {lastSearchedPhrase
+            <p>{headerName}</p>
+            {phrases
               .filter(({ name }) => name.indexOf(searchPhrase.toLowerCase()) > -1)
               .map((value, i) => {
                 return (
-                  <div onClick={() => handleClickPhrase(value.name)} className='suggestion clear-hide' key={i} tabIndex={0}>
+                  <div
+                    onClick={() => handleClickPhrase(value.name)}
+                    className={`suggestion ${!allowDelete && 'clear-hide'}`}
+                    key={i}
+                    tabIndex={0}
+                  >
                     <div className='suggestion-row'>
                       <span className='suggestion-row-name'>{`${value.name}`}</span>
                       <span className='suggestion-row-extra-info'>{`${value.category}`}</span>
@@ -53,42 +58,13 @@ Props) {
     );
   }
 
+  if (searchPhrase) {
+    return <>{Sugestions('WYSZUKIWANIA', allPhrase, false)}</>;
+  }
   return (
-    <div className='mobile-search-suggestions-container'>
-      {lastSearchedPhrase.length > 0 && (
-        <>
-          <p>OSTATNIE WYSZUKIWANIA</p>
-          {lastSearchedPhrase.map((value, i) => {
-            return (
-              <div onClick={() => handleClickPhrase(value.name)} className='suggestion' key={i} tabIndex={0}>
-                <div className='suggestion-row'>
-                  <span className='suggestion-row-name'>{`${value.name}`}</span>
-                  <span className='suggestion-row-extra-info'>{`${value.category}`}</span>
-                </div>
-                <ClearIcon />
-              </div>
-            );
-          })}
-          {popularPhrase.length > 0 && (
-            <>
-              <p>POPULARNE WYSZUKIWANIA</p>
-              {popularPhrase
-                .filter(({ name }) => name.indexOf(searchPhrase.toLowerCase()) > -1)
-                .map((value, i) => {
-                  return (
-                    <div onClick={() => handleClickPhrase(value.name)} className='suggestion clear-hide' key={i} tabIndex={0}>
-                      <div className='suggestion-row'>
-                        <span className='suggestion-row-name'>{`${value.name}`}</span>
-                        <span className='suggestion-row-extra-info'>{`${value.category}`}</span>
-                      </div>
-                      <ClearIcon />
-                    </div>
-                  );
-                })}
-            </>
-          )}
-        </>
-      )}
-    </div>
+    <>
+      {Sugestions('OSTATNIE WYSZUKIWANIA', lastSearchedPhrase, true)}
+      {Sugestions('POPULARNE WYSZUKIWANIA', popularPhrase, false)}
+    </>
   );
 }
