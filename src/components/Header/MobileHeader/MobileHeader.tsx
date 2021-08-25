@@ -16,6 +16,7 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import ClearIcon from '@material-ui/icons/Clear';
 
 import MobileSearchSuggestions from 'components/MobileSearchSuggestions';
+import { ProductPhrase } from 'components/MobileSearchSuggestions/MobileSearchSuggestions';
 import './style.scss';
 
 export default function MobileHeader() {
@@ -59,6 +60,14 @@ export default function MobileHeader() {
     history.goBack();
   }
 
+  const getSelectedPhrase = (phrase: ProductPhrase) => {
+    console.log(phrase);
+  };
+
+  const deletePhrase = (phrase: ProductPhrase) => {
+    console.log(phrase);
+  };
+
   return (
     <>
       <div className='mobile-search-header-container'>
@@ -89,7 +98,14 @@ export default function MobileHeader() {
         </form>
       </div>
       <div className='suggestion-container'>
-        <MobileSearchSuggestions searchPhrase={searchPhrase} lastSearchedPhrase={arr} popularPhrase={arr} allPhrase={arr} />
+        <MobileSearchSuggestions
+          searchPhrase={searchPhrase}
+          lastSearchedPhrase={arr}
+          popularPhrase={arr}
+          allPhrase={arr}
+          getSelectedPhrase={getSelectedPhrase}
+          deletePhrase={deletePhrase}
+        />
       </div>
     </>
   );

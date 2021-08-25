@@ -2,7 +2,7 @@ import React from 'react';
 import './style.scss';
 import ClearIcon from '@material-ui/icons/Clear';
 
-type ProductPhrase = {
+export type ProductPhrase = {
   name: string;
   category?: string;
 };
@@ -12,8 +12,8 @@ type Props = {
   lastSearchedPhrase: Array<ProductPhrase>;
   popularPhrase: Array<ProductPhrase>;
   allPhrase: Array<ProductPhrase>;
-  // getSelectedPhrase: (productPhrase: ProductPhrase) => void;
-  // deleteLastSearched: (productPhrase: ProductPhrase) => void;
+  getSelectedPhrase: (productPhrase: ProductPhrase) => void;
+  deletePhrase: (productPhrase: ProductPhrase) => void;
 };
 
 export default function MobileSearchSuggestions({
@@ -21,13 +21,9 @@ export default function MobileSearchSuggestions({
   lastSearchedPhrase,
   popularPhrase,
   allPhrase,
-}: // getSelectedPhrase,
-// deleteLastSearched,
-Props) {
-  const handleClickPhrase = (phrase: string) => {
-    console.log(phrase);
-  };
-
+  getSelectedPhrase,
+  deletePhrase,
+}: Props) {
   function Sugestions(headerName: string, phrases: Array<ProductPhrase>, allowDelete: boolean) {
     return (
       <div className='mobile-search-suggestions-container'>
@@ -39,7 +35,7 @@ Props) {
               .map((value, i) => {
                 return (
                   <div
-                    onClick={() => handleClickPhrase(value.name)}
+                    onClick={() => getSelectedPhrase(value)}
                     className={`suggestion ${!allowDelete && 'clear-hide'}`}
                     key={i}
                     tabIndex={0}
@@ -48,7 +44,12 @@ Props) {
                       <span className='suggestion-row-name'>{`${value.name}`}</span>
                       <span className='suggestion-row-extra-info'>{`${value.category}`}</span>
                     </div>
-                    <ClearIcon />
+                    <ClearIcon
+                      onClick={e => {
+                        e.stopPropagation();
+                        deletePhrase(value);
+                      }}
+                    />
                   </div>
                 );
               })}
