@@ -41,8 +41,8 @@ export default function MobileSearchSuggestions({
                     tabIndex={0}
                   >
                     <div className='suggestion-row'>
-                      <span className='suggestion-row-name'>{`${value.name}`}</span>
-                      <span className='suggestion-row-extra-info'>{`${value.category}`}</span>
+                      <span className='suggestion-row-name text-truncate '>{`${value.name}`}</span>
+                      <span className='suggestion-row-extra-info text-truncate '>{`${value.category}`}</span>
                     </div>
                     <ClearIcon
                       onClick={e => {

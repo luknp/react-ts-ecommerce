@@ -1,6 +1,8 @@
 .mobile-search-header-container {
   width: 100vw;
   position: fixed;
+  top: 0;
+  z-index: 99;
   background-color: var(--color-primary-light);
   .search-container {
     display: flex;
@@ -42,8 +44,6 @@
     }
   }
 }
-
-.suggestion-container {
-  padding: 3rem 0;
-  height: 100%;
+.space-due-fixed-child {
+  margin: 3rem 0;
 }

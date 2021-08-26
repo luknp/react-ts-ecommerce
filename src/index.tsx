@@ -9,7 +9,6 @@ import { CssBaseline } from '@material-ui/core';
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <CssBaseline />
       <App />
     </Router>
   </React.StrictMode>,

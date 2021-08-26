@@ -102,7 +102,7 @@ export default function MobileHeader() {
         </div>
       </div>
       {isSearch && (
-        <div className='suggestion-container'>
+        <>
           <MobileSearchSuggestions
             searchPhrase={searchPhrase}
             lastSearchedPhrase={arr}
@@ -111,7 +111,7 @@ export default function MobileHeader() {
             getSelectedPhrase={getSelectedPhrase}
             deletePhrase={deletePhrase}
           />
-        </div>
+        </>
       )}
       {false && (
         <ConfirmDialog
