@@ -12,7 +12,7 @@ type Props = {
   lastSearchedPhrase: Array<ProductPhrase>;
   popularPhrase: Array<ProductPhrase>;
   allPhrase: Array<ProductPhrase>;
-  getSelectedPhrase: (productPhrase: ProductPhrase) => void;
+  clickSuggestedPhrase: (productPhrase: ProductPhrase) => void;
   deletePhrase: (productPhrase: ProductPhrase) => void;
 };
 
@@ -21,7 +21,7 @@ export default function MobileSearchSuggestions({
   lastSearchedPhrase,
   popularPhrase,
   allPhrase,
-  getSelectedPhrase,
+  clickSuggestedPhrase,
   deletePhrase,
 }: Props) {
   function Sugestions(headerName: string, phrases: Array<ProductPhrase>, allowDelete: boolean) {
@@ -35,7 +35,7 @@ export default function MobileSearchSuggestions({
               .map((value, i) => {
                 return (
                   <div
-                    onClick={() => getSelectedPhrase(value)}
+                    onClick={() => clickSuggestedPhrase(value)}
                     className={`suggestion ${!allowDelete && 'clear-hide'}`}
                     key={i}
                     tabIndex={0}

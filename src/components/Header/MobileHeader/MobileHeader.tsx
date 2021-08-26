@@ -9,64 +9,57 @@ import {
   ArrowBack as ArrowBackIcon,
   Brightness4 as Brightness4Icon,
 } from '@material-ui/icons';
-
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import ClearIcon from '@material-ui/icons/Clear';
-
 import MobileSearchSuggestions from 'components/MobileSearchSuggestions';
 import { ProductPhrase } from 'components/MobileSearchSuggestions/MobileSearchSuggestions';
 import ConfirmDialog from 'components/ConfirmDialog';
-
 import './style.scss';
 
-export default function MobileHeader() {
-  const [isSearch, setIsSearch] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
-  const history = useHistory();
-  const inputElement = useRef<HTMLInputElement>(null);
-  const { pathname, search } = useLocation();
-  const [searchPhrase, setSearchPhrase] = useState('');
+type Props = {
+  searchInitPhrase: string;
+  handleSetIsSearchActive: (isActive: boolean) => void;
+};
 
-  let isArrowBack = false;
-  if (isSearch || pathname !== '/products/list') {
-    isArrowBack = true;
-  }
-  const handleInputOnlick = () => {
-    // history.push(`/app/shop/search`);
-    setIsSearch(true);
-    setIsTyping(true);
+export default function MobileHeader({ searchInitPhrase, handleSetIsSearchActive }: Props) {
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [searchPhrase, setSearchPhrase] = useState(searchInitPhrase);
+  const inputElement = useRef<HTMLInputElement>(null);
+  const history = useHistory();
+
+  const handleSetIsSearch = (isSearch: boolean) => {
+    setIsSearchActive(isSearch);
+    handleSetIsSearchActive(isSearch);
   };
 
   const handleInputOchange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchPhrase(e.target.value);
   };
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    setIsTyping(false);
-    setIsSearch(false);
-    // const newFilterParams = JSON.parse(JSON.stringify(filtersParams));
-    // newFilterParams['search'] = searchPhrase;
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    handleSetIsSearch(false);
     e.preventDefault();
+    handleRedirectsToSearch(searchPhrase);
     inputElement?.current?.blur();
-  }
-
-  function handleClearInput() {
-    // inputElement?.current?.value = ''; //Invalid left-hand side in assignment expression?
-    inputElement?.current?.focus();
-  }
-
-  function handleBack() {
-    setIsTyping(false);
-    setIsSearch(false);
-    history.goBack();
-  }
-
-  const getSelectedPhrase = (phrase: ProductPhrase) => {
-    console.log(phrase);
   };
 
-  const deletePhrase = (phrase: ProductPhrase) => {
+  const handleRedirectsToSearch = (searchPhrase: string) => {
+    history.push(`/products/list?search=${searchPhrase}`);
+  };
+
+  const handleClearInput = () => {
+    setSearchPhrase('');
+    inputElement?.current?.focus();
+  };
+
+  const handleClickSuggestedPhrase = (phrase: ProductPhrase) => {
+    handleSetIsSearch(false);
+    handleRedirectsToSearch(phrase.name);
+  };
+
+  const handleDeletePhrase = (phrase: ProductPhrase) => {
     console.log(phrase);
   };
 
@@ -75,10 +68,10 @@ export default function MobileHeader() {
       <div className='space-due-fixed-child'>
         <div className='mobile-search-header-container'>
           <form className='search-container' onSubmit={handleSubmit}>
-            {isArrowBack && <ArrowBackIosIcon onClick={handleBack} />}
+            {isSearchActive && <ArrowBackIosIcon onClick={() => handleSetIsSearch(false)} />}
             <input
               id='auto'
-              onClick={handleInputOnlick}
+              onClick={() => handleSetIsSearch(true)}
               autoComplete='off'
               placeholder='Search...'
               className='search-input'
@@ -86,7 +79,7 @@ export default function MobileHeader() {
               onChange={handleInputOchange}
               ref={inputElement}
             />
-            {isTyping ? (
+            {isSearchActive ? (
               <button type='button' className='favorite-button' onClick={handleClearInput} value='Cancel'>
                 <ClearIcon />
               </button>
@@ -101,15 +94,15 @@ export default function MobileHeader() {
           </form>
         </div>
       </div>
-      {isSearch && (
+      {isSearchActive && (
         <>
           <MobileSearchSuggestions
             searchPhrase={searchPhrase}
             lastSearchedPhrase={arr}
             popularPhrase={arr}
             allPhrase={arr}
-            getSelectedPhrase={getSelectedPhrase}
-            deletePhrase={deletePhrase}
+            clickSuggestedPhrase={handleClickSuggestedPhrase}
+            deletePhrase={handleDeletePhrase}
           />
         </>
       )}
@@ -118,8 +111,8 @@ export default function MobileHeader() {
           title='Confirm Delete Cart'
           contentText='Are you sure you want to delete the product?'
           actionBtnText='Delete Product'
-          confirmAction={() => console.log('actionFunc')}
-          cancelAction={() => console.log('noActionFunc')}
+          confirmAction={() => console.log('confirmAction')}
+          cancelAction={() => console.log('cancelAction')}
         />
       )}
     </>
