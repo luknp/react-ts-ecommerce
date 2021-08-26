@@ -16,6 +16,17 @@ export const colorsLight = {
     dark: '#fff',
     contrastText: '#fff',
   },
+  background: {
+    paper: '#fff',
+    default: '#fafafa',
+  },
+  text: {
+    primary: 'rgba(0, 0, 0, 0.87)',
+    secondary: 'rgba(0, 0, 0, 0.54)',
+    disabled: 'rgba(0, 0, 0, 0.38)',
+    hint: 'rgba(0, 0, 0, 0.38)',
+    icon: 'rgba(0, 0, 0, 0.12)',
+  },
 };
 
 type ColorPalette = typeof colorsLight;
@@ -33,6 +44,17 @@ export const colorsDark: ColorPalette = {
     main: '#e4fffd',
     dark: '#fff',
     contrastText: '#fff',
+  },
+  background: {
+    paper: '#424242',
+    default: '#303030',
+  },
+  text: {
+    primary: '#fff',
+    secondary: 'rgba(255, 255, 255, 0.7)',
+    disabled: 'rgba(255, 255, 255, 0.5)',
+    hint: 'rgba(255, 255, 255, 0.5)',
+    icon: 'rgba(255, 255, 255, 0.5)',
   },
 };
 
@@ -53,6 +75,16 @@ const customTheme = (isDarkMode: boolean) =>
       },
       secondary: {
         main: getColorPalette(isDarkMode).secondary.main,
+      },
+      background: {
+        paper: getColorPalette(isDarkMode).background.paper,
+        default: getColorPalette(isDarkMode).background.default,
+      },
+      text: {
+        primary: getColorPalette(isDarkMode).text.primary,
+        secondary: getColorPalette(isDarkMode).text.secondary,
+        disabled: getColorPalette(isDarkMode).text.disabled,
+        hint: getColorPalette(isDarkMode).text.hint,
       },
     },
     overrides: {
