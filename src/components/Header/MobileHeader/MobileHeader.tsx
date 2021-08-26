@@ -17,6 +17,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 import MobileSearchSuggestions from 'components/MobileSearchSuggestions';
 import { ProductPhrase } from 'components/MobileSearchSuggestions/MobileSearchSuggestions';
+import ConfirmDialog from 'components/ConfirmDialog';
+
 import './style.scss';
 
 export default function MobileHeader() {
@@ -70,43 +72,56 @@ export default function MobileHeader() {
 
   return (
     <>
-      <div className='mobile-search-header-container'>
-        <form className='search-container' onSubmit={handleSubmit}>
-          {isArrowBack && <ArrowBackIosIcon onClick={handleBack} />}
-          <input
-            id='auto'
-            onClick={handleInputOnlick}
-            autoComplete='off'
-            placeholder='Search...'
-            className='search-input'
-            value={searchPhrase}
-            onChange={handleInputOchange}
-            ref={inputElement}
+      <div className='space-due-fixed-child'>
+        <div className='mobile-search-header-container'>
+          <form className='search-container' onSubmit={handleSubmit}>
+            {isArrowBack && <ArrowBackIosIcon onClick={handleBack} />}
+            <input
+              id='auto'
+              onClick={handleInputOnlick}
+              autoComplete='off'
+              placeholder='Search...'
+              className='search-input'
+              value={searchPhrase}
+              onChange={handleInputOchange}
+              ref={inputElement}
+            />
+            {isTyping ? (
+              <button type='button' className='favorite-button' onClick={handleClearInput} value='Cancel'>
+                <ClearIcon />
+              </button>
+            ) : (
+              <button className='favorite-button'>
+                <StarBorderIcon />
+              </button>
+            )}
+            <button type='submit' className='search-button'>
+              <SearchIcon />
+            </button>
+          </form>
+        </div>
+      </div>
+      {isSearch && (
+        <div className='suggestion-container'>
+          <MobileSearchSuggestions
+            searchPhrase={searchPhrase}
+            lastSearchedPhrase={arr}
+            popularPhrase={arr}
+            allPhrase={arr}
+            getSelectedPhrase={getSelectedPhrase}
+            deletePhrase={deletePhrase}
           />
-          {isTyping ? (
-            <button type='button' className='favorite-button' onClick={handleClearInput} value='Cancel'>
-              <ClearIcon />
-            </button>
-          ) : (
-            <button className='favorite-button'>
-              <StarBorderIcon />
-            </button>
-          )}
-          <button type='submit' className='search-button'>
-            <SearchIcon />
-          </button>
-        </form>
-      </div>
-      <div className='suggestion-container'>
-        <MobileSearchSuggestions
-          searchPhrase={searchPhrase}
-          lastSearchedPhrase={arr}
-          popularPhrase={arr}
-          allPhrase={arr}
-          getSelectedPhrase={getSelectedPhrase}
-          deletePhrase={deletePhrase}
+        </div>
+      )}
+      {false && (
+        <ConfirmDialog
+          title='Confirm Delete Cart'
+          contentText='Are you sure you want to delete the product?'
+          actionBtnText='Delete Product'
+          confirmAction={() => console.log('actionFunc')}
+          cancelAction={() => console.log('noActionFunc')}
         />
-      </div>
+      )}
     </>
   );
 }
