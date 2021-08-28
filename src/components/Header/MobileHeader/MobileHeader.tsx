@@ -56,6 +56,7 @@ export default function MobileHeader({ searchInitPhrase, handleSetIsSearchActive
 
   const handleClickSuggestedPhrase = (phrase: ProductPhrase) => {
     handleSetIsSearch(false);
+    setSearchPhrase(phrase.name);
     handleRedirectsToSearch(phrase.name);
   };
 
