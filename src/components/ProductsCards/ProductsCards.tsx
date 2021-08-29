@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProductCardSkeleton from 'components/ProductCardSkeleton';
 import PageHeader from 'components/PageHeader';
 import { makeStyles } from '@material-ui/core/styles';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { selectProductsState, fetchProducts } from 'redux/slices/productsSlice';
 import './style.scss';
 
 const useStyles = makeStyles({
@@ -15,9 +17,14 @@ const useStyles = makeStyles({
 
 function ProductsCards() {
   const classes = useStyles();
-  const fetchLoading = true;
+  const dispatch = useAppDispatch();
+  const { isLoading, fetchError, products, variants } = useAppSelector(selectProductsState);
 
-  if (fetchLoading) {
+  useEffect(() => {
+    dispatch(fetchProducts('some filters in future'));
+  }, []);
+
+  if (isLoading) {
     return (
       <div className={classes.root}>
         <PageHeader title='Products' description='List of searched products' />
@@ -29,7 +36,7 @@ function ProductsCards() {
       </div>
     );
   }
-  return <div>nothing..</div>;
+  return <div>products..</div>;
 }
 
 export default ProductsCards;

@@ -42,5 +42,5 @@ export const showNotification =
     }, notificationTimeoutMs);
   };
 
-export const selectNotifState = (state: RootState) => state.notification;
+export const selectNotificationState = (state: RootState) => state.notification;
 export default notificationSlice.reducer;

@@ -1,9 +1,9 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { Snackbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
-import { clearNotification, selectNotifState } from 'redux/slices/notificationSlice';
+import { clearNotification, selectNotificationState } from 'redux/slices/notificationSlice';
 
 const useStyles = makeStyles(theme => ({
   snackbar: {
@@ -15,8 +15,8 @@ const useStyles = makeStyles(theme => ({
 
 const ToastNotification = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const { message, type } = useSelector(selectNotifState);
+  const dispatch = useAppDispatch();
+  const { message, type } = useAppSelector(selectNotificationState);
 
   const clearNotif = () => {
     dispatch(clearNotification());
