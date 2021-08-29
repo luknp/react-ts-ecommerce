@@ -16,6 +16,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 import MobileSearchSuggestions from 'components/MobileSearchSuggestions';
 import { ProductPhrase } from 'components/MobileSearchSuggestions/MobileSearchSuggestions';
 import ConfirmDialog from 'components/ConfirmDialog';
+import { useDispatch, useSelector } from 'react-redux';
+import { showNotification } from 'redux/slices/notificationSlice';
 import './style.scss';
 
 type Props = {
@@ -28,6 +30,7 @@ export default function MobileHeader({ searchInitPhrase, handleSetIsSearchActive
   const [searchPhrase, setSearchPhrase] = useState(searchInitPhrase);
   const inputElement = useRef<HTMLInputElement>(null);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSetIsSearch = (isSearch: boolean) => {
     setIsSearchActive(isSearch);
@@ -61,6 +64,7 @@ export default function MobileHeader({ searchInitPhrase, handleSetIsSearchActive
   };
 
   const handleDeletePhrase = (phrase: ProductPhrase) => {
+    dispatch(showNotification('Deleted', 'success'));
     console.log(phrase);
   };
 

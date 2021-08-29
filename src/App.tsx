@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Routes from 'Routes';
 import { ThemeProvider } from '@material-ui/core/styles';
 import customTheme, { saveColorsIntoCss } from 'styles/customTheme';
+import ToastNotification from 'components/ToastNotification';
 import 'styles/utility_classes.scss';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
   return (
     <ThemeProvider theme={customTheme(darkMode)}>
       <Routes />
+      <ToastNotification />
     </ThemeProvider>
   );
 }
