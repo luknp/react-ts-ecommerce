@@ -1,0 +1,49 @@
+.price-container {
+  margin: 0;
+  .price {
+    text-align: left;
+    .price-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .price-money {
+        margin: 0;
+        margin-right: 1rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        // margin-bottom: 0;
+      }
+      .promotion {
+        align-items: center;
+        display: flex;
+        .old-price {
+          margin: 0;
+          margin-right: 1rem;
+        }
+        .procent-promotion {
+          font-size: 0.8rem;
+          font-weight: 600;
+          border: 0.15rem solid red;
+          border-radius: 0.3rem;
+          color: red;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          p {
+            margin: 0.1rem 0.5rem;
+          }
+        }
+      }
+    }
+    .unit {
+      margin: 0;
+      font-weight: 900;
+      font-size: 1rem;
+    }
+  }
+
+  .availability {
+    margin: 0.5rem;
+  }
+}
