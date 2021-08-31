@@ -1,3 +1,4 @@
 import Badge from './Badge';
+import Typography from './Typography';
 
-export { Badge };
+export { Badge, Typography };
