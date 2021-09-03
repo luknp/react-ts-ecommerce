@@ -1,60 +1,57 @@
-import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
-import {
-  Menu as MenuIcon,
-  MailOutline as MailIcon,
-  NotificationsNone as NotificationsIcon,
-  Person as AccountIcon,
-  Search as SearchIcon,
-  Send as SendIcon,
-  ArrowBack as ArrowBackIcon,
-  Brightness4 as Brightness4Icon,
-} from '@material-ui/icons';
-import { useHistory } from 'react-router-dom';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import ClearIcon from '@material-ui/icons/Clear';
+import React, { useState, useRef } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import MobileSearchSuggestions from 'components/MobileSearchSuggestions';
 import { ProductPhrase } from 'components/MobileSearchSuggestions/MobileSearchSuggestions';
 import ConfirmDialog from 'components/ConfirmDialog';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { showNotification } from 'redux/slices/notificationSlice';
+import SearchField from 'components/SearchField';
+import MobileButtomMenu from 'components/MobileButtomMenu';
+import queryString from 'query-string';
+import { searchSuggestions } from 'components/Header/mocks';
 import './style.scss';
 
 type Props = {
   searchInitPhrase: string;
-  handleSetIsSearchActive: (isActive: boolean) => void;
 };
 
-export default function MobileHeader({ searchInitPhrase, handleSetIsSearchActive }: Props) {
+export default function MobileHeader({ searchInitPhrase }: Props) {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [searchPhrase, setSearchPhrase] = useState(searchInitPhrase);
   const inputElement = useRef<HTMLInputElement>(null);
   const history = useHistory();
   const dispatch = useDispatch();
+  const { search } = useLocation();
 
+  const { pathname } = history.location;
+  const isMobileFullPage = 'isMobileFullPage';
+  const queries = queryString.parse(search);
+
+  const handleUrlQuery = (isSearch: boolean) => {
+    if (isSearch) {
+      if (!queries[isMobileFullPage]) {
+        history.push(`${pathname}${search}&${isMobileFullPage}=true`);
+      }
+    } else {
+      const a = queryString.exclude(search, [isMobileFullPage]);
+      history.push(`${pathname}${a}`);
+    }
+  };
   const handleSetIsSearch = (isSearch: boolean) => {
     setIsSearchActive(isSearch);
-    handleSetIsSearchActive(isSearch);
+    handleUrlQuery(isSearch);
   };
 
-  const handleInputOchange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchPhrase(e.target.value);
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  if (!queries[isMobileFullPage] && isSearchActive) {
     handleSetIsSearch(false);
-    e.preventDefault();
-    handleRedirectsToSearch(searchPhrase);
-    inputElement?.current?.blur();
-  };
+  }
 
   const handleRedirectsToSearch = (searchPhrase: string) => {
-    history.push(`/products/list?search=${searchPhrase}`);
+    history.push(`${pathname}?search=${searchPhrase}`);
   };
 
-  const handleClearInput = () => {
-    setSearchPhrase('');
-    inputElement?.current?.focus();
+  const handleSetSearchPhrase = (searchPhrase: string) => {
+    setSearchPhrase(searchPhrase);
   };
 
   const handleClickSuggestedPhrase = (phrase: ProductPhrase) => {
@@ -70,47 +67,31 @@ export default function MobileHeader({ searchInitPhrase, handleSetIsSearchActive
 
   return (
     <>
-      <div className='space-due-fixed-child'>
-        <div className='mobile-search-header-container'>
-          <form className='search-container' onSubmit={handleSubmit}>
-            {isSearchActive && <ArrowBackIosIcon onClick={() => handleSetIsSearch(false)} />}
-            <input
-              id='auto'
-              onClick={() => handleSetIsSearch(true)}
-              autoComplete='off'
-              placeholder='Search...'
-              className='search-input'
-              value={searchPhrase}
-              onChange={handleInputOchange}
-              ref={inputElement}
-            />
-            {isSearchActive ? (
-              <button type='button' className='favorite-button' onClick={handleClearInput} value='Cancel'>
-                <ClearIcon />
-              </button>
-            ) : (
-              <button className='favorite-button'>
-                <StarBorderIcon />
-              </button>
-            )}
-            <button type='submit' className='search-button'>
-              <SearchIcon />
-            </button>
-          </form>
+      <div className='header-mobile-space-due-fixed-child'>
+        <div className='mobile-header-container'>
+          <SearchField
+            isSearchActive={isSearchActive}
+            searchPhrase={searchPhrase}
+            handleSetSearchPhrase={handleSetSearchPhrase}
+            handleSetIsSearchActive={handleSetIsSearch}
+          />
         </div>
       </div>
       {isSearchActive && (
-        <>
-          <MobileSearchSuggestions
-            searchPhrase={searchPhrase}
-            lastSearchedPhrase={arr}
-            popularPhrase={arr}
-            allPhrase={arr}
-            clickSuggestedPhrase={handleClickSuggestedPhrase}
-            deletePhrase={handleDeletePhrase}
-          />
-        </>
+        <div className='suggestion-whole-page'>
+          <div className='allow-scroll'>
+            <MobileSearchSuggestions
+              searchPhrase={searchPhrase}
+              lastSearchedPhrase={searchSuggestions}
+              popularPhrase={searchSuggestions}
+              allPhrase={searchSuggestions}
+              clickSuggestedPhrase={handleClickSuggestedPhrase}
+              deletePhrase={handleDeletePhrase}
+            />
+          </div>
+        </div>
       )}
+      {!isSearchActive && <MobileButtomMenu />}
       {false && (
         <ConfirmDialog
           title='Confirm Delete Cart'
@@ -123,36 +104,3 @@ export default function MobileHeader({ searchInitPhrase, handleSetIsSearchActive
     </>
   );
 }
-
-const arr = [
-  {
-    name: 'bulbasaur 2 wsde      dsssssssssdsf fdsf fdsafvd edsfdcx  sfdsxffds',
-    category: 'Elektronika i Urządzenia przemysłowe',
-    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
-  },
-  {
-    name: 'ivysaur',
-    category: 'Elektronika',
-    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png',
-  },
-  {
-    name: 'venusaur',
-    category: 'Elektronika',
-    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png',
-  },
-  {
-    name: 'charmander',
-    category: 'Elektronika',
-    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
-  },
-  {
-    name: 'charmeleon',
-    category: 'Elektronika',
-    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png',
-  },
-  {
-    name: 'charmeleon2',
-    category: 'Elektronika',
-    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png',
-  },
-];
