@@ -1,20 +1,10 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, IconButton, InputBase, Menu, MenuItem, Fab, useMediaQuery } from '@material-ui/core';
-import {
-  Menu as MenuIcon,
-  MailOutline as MailIcon,
-  NotificationsNone as NotificationsIcon,
-  Person as AccountIcon,
-  Search as SearchIcon,
-  Send as SendIcon,
-  ArrowBack as ArrowBackIcon,
-  Brightness4 as Brightness4Icon,
-} from '@material-ui/icons';
+import { IconButton, Menu, MenuItem } from '@material-ui/core';
+import { MailOutline as MailIcon, NotificationsNone as NotificationsIcon, Person as AccountIcon } from '@material-ui/icons';
 import classNames from 'classnames';
-import { useTheme } from '@material-ui/core/styles';
 import useStyles from './mu-styles';
 import { Badge, Typography } from 'components/Wrappers';
-import { messages, notifications } from './mocks';
+import { messages, notifications } from '../mocks';
 
 export default function MenuIcons() {
   const classes = useStyles();
@@ -23,8 +13,6 @@ export default function MenuIcons() {
   const [notificationsMenu, setNotificationsMenu] = useState<Element | null>(null);
   const [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   const [profileMenu, setProfileMenu] = useState<Element | null>(null);
-  const [isSearchOpen, setSearchOpen] = useState(false);
-  const theme = useTheme();
 
   return (
     <>
