@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Routes from 'Routes';
+import AppRoutes from 'AppRoutes';
 import { ThemeProvider } from '@material-ui/core/styles';
 import customTheme, { saveColorsIntoCss } from 'styles/customTheme';
 import ToastNotification from 'components/ToastNotification';
@@ -13,7 +13,7 @@ function App() {
 
   return (
     <ThemeProvider theme={customTheme(darkMode)}>
-      <Routes />
+      <AppRoutes />
       <ToastNotification />
     </ThemeProvider>
   );
