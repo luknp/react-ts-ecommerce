@@ -50,3 +50,31 @@ export const notifications = [
     message: '12 new orders has arrived today',
   },
 ];
+
+export const searchSuggestions = [
+  {
+    name: 'bulbasaur 2 wsde      dsssssssssdsf fdsf fdsafvd edsfdcx  sfdsxffds',
+    category: 'Elektronika i Urządzenia przemysłowe',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
+  },
+  {
+    name: 'ivysaur',
+    category: 'Elektronika',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png',
+  },
+  {
+    name: 'venusaur',
+    category: 'Elektronika',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png',
+  },
+  {
+    name: 'charmander',
+    category: 'Elektronika',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
+  },
+  {
+    name: 'charmeleon',
+    category: 'Elektronika',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png',
+  },
+];
