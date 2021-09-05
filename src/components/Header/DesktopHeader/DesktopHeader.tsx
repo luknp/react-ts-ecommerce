@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 import MobileSearchSuggestions from 'components/MobileSearchSuggestions';
-import { ProductPhrase } from 'components/MobileSearchSuggestions/MobileSearchSuggestions';
-import { useDispatch } from 'react-redux';
-import { showNotification } from 'redux/slices/notificationSlice';
 import SearchField from 'components/SearchField';
 import { searchSuggestions } from 'components/Header/mocks';
 import MenuIcons from 'components/Header/DesktopHeader/MenuIcons';
+import useSearchHeader from 'components/Header/useSearchHeader';
 import './style.scss';
 
 type Props = {
@@ -14,28 +11,15 @@ type Props = {
 };
 
 export default function MobileHeader({ searchInitPhrase }: Props) {
-  const [isSearchActive, setIsSearchActive] = useState(false);
-  const [searchPhrase, setSearchPhrase] = useState(searchInitPhrase);
-  const history = useHistory();
-  const dispatch = useDispatch();
-
-  const handleRedirectsToSearch = (searchPhrase: string) => {
-    history.push(`/products/list?search=${searchPhrase}`);
-  };
-
-  const handleClickSuggestedPhrase = (phrase: ProductPhrase) => {
-    setIsSearchActive(false);
-    setSearchPhrase(phrase.name);
-    handleRedirectsToSearch(phrase.name);
-  };
-
-  const handleDeletePhrase = (phrase: ProductPhrase) => {
-    dispatch(showNotification('Deleted', 'success'));
-    console.log(phrase);
-  };
-  const handleSetSearchPhrase = (searchPhrase: string) => {
-    setSearchPhrase(searchPhrase);
-  };
+  const {
+    isSearchActive,
+    setIsSearchActive,
+    searchPhrase,
+    setSearchPhrase,
+    handleDeleteSuggestedPhrase,
+    handleRedirectsToSearch,
+    handleClickSuggestedPhrase,
+  } = useSearchHeader(searchInitPhrase);
 
   return (
     <>
@@ -47,19 +31,21 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
               <SearchField
                 isSearchActive={isSearchActive}
                 searchPhrase={searchPhrase}
-                handleSetSearchPhrase={handleSetSearchPhrase}
-                handleSetIsSearchActive={(isActive: boolean) => console.log(isActive)}
+                handleSetSearchPhrase={(searchPhrase: string) => setSearchPhrase(searchPhrase)}
+                handleSetIsSearchActive={(isSearchActive: boolean) => setIsSearchActive(isSearchActive)}
               />
-              <div className='search-form-autocomplete'>
-                <MobileSearchSuggestions
-                  searchPhrase={searchPhrase}
-                  lastSearchedPhrase={searchSuggestions}
-                  popularPhrase={searchSuggestions}
-                  allPhrase={searchSuggestions}
-                  clickSuggestedPhrase={handleClickSuggestedPhrase}
-                  deletePhrase={handleDeletePhrase}
-                />
-              </div>
+              {isSearchActive && (
+                <div className='search-form-autocomplete'>
+                  <MobileSearchSuggestions
+                    searchPhrase={searchPhrase}
+                    lastSearchedPhrase={searchSuggestions}
+                    popularPhrase={searchSuggestions}
+                    allPhrase={searchSuggestions}
+                    clickSuggestedPhrase={handleClickSuggestedPhrase}
+                    deletePhrase={handleDeleteSuggestedPhrase}
+                  />
+                </div>
+              )}
             </div>
             <div className='personal-data-section'>
               <MenuIcons />
