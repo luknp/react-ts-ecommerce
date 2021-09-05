@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 import MobileSearchSuggestions from 'components/MobileSearchSuggestions';
-import { ProductPhrase } from 'components/MobileSearchSuggestions/MobileSearchSuggestions';
 import ConfirmDialog from 'components/ConfirmDialog';
-import { useDispatch } from 'react-redux';
-import { showNotification } from 'redux/slices/notificationSlice';
 import SearchField from 'components/SearchField';
 import MobileButtomMenu from 'components/MobileButtomMenu';
 import { searchSuggestions } from 'components/Header/mocks';
 import useMobileFullPage from 'hooks/useMobileFullPage';
+import useSearchHeader from 'components/Header/useSearchHeader';
+
 import './style.scss';
 
 type Props = {
@@ -16,42 +14,26 @@ type Props = {
 };
 
 export default function MobileHeader({ searchInitPhrase }: Props) {
-  const [isSearchActive, setIsSearchActive] = useState(false);
-  const [searchPhrase, setSearchPhrase] = useState(searchInitPhrase);
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const { pathname } = history.location;
-
   const mobileFullPageKey = 'mobile-search';
+  const {
+    isSearchActive,
+    setIsSearchActive,
+    searchPhrase,
+    setSearchPhrase,
+    handleDeleteSuggestedPhrase,
+    handleRedirectsToSearch,
+    handleClickSuggestedPhrase,
+  } = useSearchHeader(searchInitPhrase);
   const { handleFullPageUrlQuery, closePageFlag } = useMobileFullPage(isSearchActive, mobileFullPageKey);
 
-  const handleSetIsSearch = (isSearch: boolean) => {
-    setIsSearchActive(isSearch);
-    handleFullPageUrlQuery(isSearch);
+  const handleSetIsSearchActive = (isSearchActive: boolean) => {
+    setIsSearchActive(isSearchActive);
+    handleFullPageUrlQuery(isSearchActive);
   };
 
   if (closePageFlag) {
-    handleSetIsSearch(false);
+    handleSetIsSearchActive(false);
   }
-
-  const handleRedirectsToSearch = (searchPhrase: string) => {
-    history.push(`${pathname}?search=${searchPhrase}`);
-  };
-
-  const handleSetSearchPhrase = (searchPhrase: string) => {
-    setSearchPhrase(searchPhrase);
-  };
-
-  const handleClickSuggestedPhrase = (phrase: ProductPhrase) => {
-    handleSetIsSearch(false);
-    setSearchPhrase(phrase.name);
-    handleRedirectsToSearch(phrase.name);
-  };
-
-  const handleDeletePhrase = (phrase: ProductPhrase) => {
-    dispatch(showNotification('Deleted', 'success'));
-    console.log(phrase);
-  };
 
   return (
     <>
@@ -60,8 +42,8 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
           <SearchField
             isSearchActive={isSearchActive}
             searchPhrase={searchPhrase}
-            handleSetSearchPhrase={handleSetSearchPhrase}
-            handleSetIsSearchActive={handleSetIsSearch}
+            handleSetSearchPhrase={(searchPhrase: string) => setSearchPhrase(searchPhrase)}
+            handleSetIsSearchActive={handleSetIsSearchActive}
           />
         </div>
       </div>
@@ -74,7 +56,7 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
               popularPhrase={searchSuggestions}
               allPhrase={searchSuggestions}
               clickSuggestedPhrase={handleClickSuggestedPhrase}
-              deletePhrase={handleDeletePhrase}
+              deletePhrase={handleDeleteSuggestedPhrase}
             />
           </div>
         </div>
