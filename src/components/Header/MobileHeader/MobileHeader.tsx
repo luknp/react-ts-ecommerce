@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import MobileSearchSuggestions from 'components/MobileSearchSuggestions';
 import { ProductPhrase } from 'components/MobileSearchSuggestions/MobileSearchSuggestions';
 import ConfirmDialog from 'components/ConfirmDialog';
@@ -7,8 +7,8 @@ import { useDispatch } from 'react-redux';
 import { showNotification } from 'redux/slices/notificationSlice';
 import SearchField from 'components/SearchField';
 import MobileButtomMenu from 'components/MobileButtomMenu';
-import queryString from 'query-string';
 import { searchSuggestions } from 'components/Header/mocks';
+import useMobileFullPage from 'hooks/useMobileFullPage';
 import './style.scss';
 
 type Props = {
@@ -18,35 +18,19 @@ type Props = {
 export default function MobileHeader({ searchInitPhrase }: Props) {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [searchPhrase, setSearchPhrase] = useState(searchInitPhrase);
-  const history = useHistory();
   const dispatch = useDispatch();
-  const { search } = useLocation();
-
+  const history = useHistory();
   const { pathname } = history.location;
-  const isMobileFullPage = 'isMobileFullPage';
-  const queries = queryString.parse(search);
+
+  const mobileFullPageKey = 'mobile-search';
+  const { handleFullPageUrlQuery, closePageFlag } = useMobileFullPage(isSearchActive, mobileFullPageKey);
 
   const handleSetIsSearch = (isSearch: boolean) => {
     setIsSearchActive(isSearch);
-    handleUrlQuery(isSearch);
+    handleFullPageUrlQuery(isSearch);
   };
 
-  const handleUrlQuery = (isSearch: boolean) => {
-    if (isSearch) {
-      if (!queries[isMobileFullPage]) {
-        if (search) {
-          history.push(`${pathname}${search}&${isMobileFullPage}=true`);
-        } else {
-          history.push(`${pathname}?${isMobileFullPage}=true`);
-        }
-      }
-    } else {
-      const a = queryString.exclude(search, [isMobileFullPage]);
-      history.push(`${pathname}${a}`);
-    }
-  };
-
-  if (!queries[isMobileFullPage] && isSearchActive) {
+  if (closePageFlag) {
     handleSetIsSearch(false);
   }
 
