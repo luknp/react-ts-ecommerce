@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import MobileSearchSuggestions from 'components/MobileSearchSuggestions';
 import SearchField from 'components/SearchField';
 import { searchSuggestions } from 'components/Header/mocks';
 import MenuIcons from 'components/Header/DesktopHeader/MenuIcons';
 import useSearchHeader from 'components/Header/useSearchHeader';
+import useOnClickOutside from 'hooks/useOnClickOutside';
+
 import './style.scss';
 
 type Props = {
@@ -20,6 +22,13 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
     handleRedirectsToSearch,
     handleClickSuggestedPhrase,
   } = useSearchHeader(searchInitPhrase);
+  const searchSuggestionsRef = useRef<HTMLDivElement>(null);
+  const handleClickOutside = () => {
+    if (isSearchActive) {
+      setIsSearchActive(false);
+    }
+  };
+  useOnClickOutside(searchSuggestionsRef, handleClickOutside);
 
   return (
     <>
@@ -35,7 +44,7 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
                 handleSetIsSearchActive={(isSearchActive: boolean) => setIsSearchActive(isSearchActive)}
               />
               {isSearchActive && (
-                <div className='search-form-autocomplete'>
+                <div className='search-form-autocomplete' ref={searchSuggestionsRef} onClick={e => console.log(e)}>
                   <MobileSearchSuggestions
                     searchPhrase={searchPhrase}
                     lastSearchedPhrase={searchSuggestions}

@@ -17,6 +17,7 @@ const useSearchHeader = (searchInitPhrase: string, handleSetIsSearchActive?: (is
   };
 
   const handleClickSuggestedPhrase = (phrase: ProductPhrase) => {
+    setIsSearchActive(false);
     if (handleSetIsSearchActive) {
       handleSetIsSearchActive(false);
     }
