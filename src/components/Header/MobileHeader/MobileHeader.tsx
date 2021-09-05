@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import MobileSearchSuggestions from 'components/MobileSearchSuggestions';
 import { ProductPhrase } from 'components/MobileSearchSuggestions/MobileSearchSuggestions';
@@ -18,7 +18,6 @@ type Props = {
 export default function MobileHeader({ searchInitPhrase }: Props) {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [searchPhrase, setSearchPhrase] = useState(searchInitPhrase);
-  const inputElement = useRef<HTMLInputElement>(null);
   const history = useHistory();
   const dispatch = useDispatch();
   const { search } = useLocation();
@@ -27,19 +26,24 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
   const isMobileFullPage = 'isMobileFullPage';
   const queries = queryString.parse(search);
 
+  const handleSetIsSearch = (isSearch: boolean) => {
+    setIsSearchActive(isSearch);
+    handleUrlQuery(isSearch);
+  };
+
   const handleUrlQuery = (isSearch: boolean) => {
     if (isSearch) {
       if (!queries[isMobileFullPage]) {
-        history.push(`${pathname}${search}&${isMobileFullPage}=true`);
+        if (search) {
+          history.push(`${pathname}${search}&${isMobileFullPage}=true`);
+        } else {
+          history.push(`${pathname}?${isMobileFullPage}=true`);
+        }
       }
     } else {
       const a = queryString.exclude(search, [isMobileFullPage]);
       history.push(`${pathname}${a}`);
     }
-  };
-  const handleSetIsSearch = (isSearch: boolean) => {
-    setIsSearchActive(isSearch);
-    handleUrlQuery(isSearch);
   };
 
   if (!queries[isMobileFullPage] && isSearchActive) {
