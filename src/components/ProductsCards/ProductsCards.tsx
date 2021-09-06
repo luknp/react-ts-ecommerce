@@ -4,6 +4,7 @@ import PageHeader from 'components/PageHeader';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { selectProductsState, fetchProducts } from 'redux/slices/productsSlice';
+import ProductCard from './ProductCard';
 import './style.scss';
 
 const useStyles = makeStyles({
@@ -36,7 +37,23 @@ function ProductsCards() {
       </div>
     );
   }
-  return <div>products..</div>;
+
+  if (fetchError) {
+    return (
+      <div>
+        <h1>error</h1>
+        <h2> Please refresh</h2>
+      </div>
+    );
+  }
+  return (
+    <>
+      <PageHeader title='Products' description='List of searched products' />
+      {products.map(product => (
+        <ProductCard product={product} key={product.id} />
+      ))}
+    </>
+  );
 }
 
 export default ProductsCards;

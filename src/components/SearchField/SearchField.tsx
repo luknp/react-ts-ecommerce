@@ -23,13 +23,13 @@ import { useTheme } from '@material-ui/core/styles';
 import './style.scss';
 
 type Props = {
-  searchInitPhrase: string;
+  isSearchActive: boolean;
+  searchPhrase: string;
   handleSetIsSearchActive: (isActive: boolean) => void;
+  handleSetSearchPhrase: (searchPhrase: string) => void;
 };
 
-export default function SearchField({ searchInitPhrase, handleSetIsSearchActive }: Props) {
-  const [isSearchActive, setIsSearchActive] = useState(false);
-  const [searchPhrase, setSearchPhrase] = useState(searchInitPhrase);
+export default function SearchField({ isSearchActive, searchPhrase, handleSetSearchPhrase, handleSetIsSearchActive }: Props) {
   const inputElement = useRef<HTMLInputElement>(null);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -37,12 +37,11 @@ export default function SearchField({ searchInitPhrase, handleSetIsSearchActive 
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
   const handleSetIsSearch = (isSearch: boolean) => {
-    setIsSearchActive(isSearch);
     handleSetIsSearchActive(isSearch);
   };
 
   const handleInputOchange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchPhrase(e.target.value);
+    handleSetSearchPhrase(e.target.value);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -57,13 +56,13 @@ export default function SearchField({ searchInitPhrase, handleSetIsSearchActive 
   };
 
   const handleClearInput = () => {
-    setSearchPhrase('');
+    handleSetSearchPhrase('');
     inputElement?.current?.focus();
   };
 
   const handleClickSuggestedPhrase = (phrase: ProductPhrase) => {
     handleSetIsSearch(false);
-    setSearchPhrase(phrase.name);
+    handleSetSearchPhrase(phrase.name);
     handleRedirectsToSearch(phrase.name);
   };
 
@@ -91,7 +90,7 @@ export default function SearchField({ searchInitPhrase, handleSetIsSearchActive 
             <ClearIcon />
           </button>
         ) : (
-          <button className='favorite-button'>
+          <button className='search-favorite-button'>
             <StarBorderIcon />
           </button>
         )}

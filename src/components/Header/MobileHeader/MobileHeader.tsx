@@ -14,7 +14,6 @@ type Props = {
 };
 
 export default function MobileHeader({ searchInitPhrase }: Props) {
-  const mobileFullPageKey = 'mobile-search';
   const {
     isSearchActive,
     setIsSearchActive,
@@ -24,10 +23,9 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
     handleRedirectsToSearch,
     handleClickSuggestedPhrase,
   } = useSearchHeader(searchInitPhrase);
-  const { handleFullPageUrlQuery, closePageFlag } = useMobileFullPage(isSearchActive, mobileFullPageKey);
+  const { handleFullPageUrlQuery, closePageFlag } = useMobileFullPage(isSearchActive, 'mobile-search');
 
   const handleSetIsSearchActive = (isSearchActive: boolean) => {
-    setIsSearchActive(isSearchActive);
     handleFullPageUrlQuery(isSearchActive);
   };
 

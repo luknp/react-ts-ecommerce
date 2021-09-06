@@ -48,7 +48,5 @@ const shoppingCartSlice = createSlice({
 });
 
 export const { push, remove } = shoppingCartSlice.actions;
-
 export const selectShoppingCartState = (state: RootState) => state.shoppingCart;
-
 export default shoppingCartSlice.reducer;

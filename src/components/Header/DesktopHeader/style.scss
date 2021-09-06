@@ -20,6 +20,7 @@
     .search-form-autocomplete {
       position: fixed;
       max-width: var(--search-width);
+      width: 100%;
       max-height: 600px;
       overflow-y: auto;
     }
