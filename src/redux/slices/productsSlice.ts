@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from 'redux/store';
 import { fetchProductsApi } from 'services/fakeProductsApi';
+import { Product, ProductVariant } from 'types';
 
 interface ProductsState {
-  products: any;
-  variants: any;
-  variantsProducts: any;
+  products: Array<Product>;
+  variants: Array<ProductVariant>;
+  variantsProducts: Array<Product>;
   isLoading: boolean;
   fetchError: string | null;
 }
@@ -32,6 +33,7 @@ const productsSlice = createSlice({
     },
     setProducts: (state, action: PayloadAction<any>) => {
       const data = action.payload;
+      console.log(data);
       state.products = data.products;
       state.variants = data.variants;
       state.variantsProducts = data.variantsProducts;
@@ -46,11 +48,10 @@ export const fetchProducts = (filterParams: string): AppThunk => {
     try {
       dispatch(setLoading());
       const data = await fetchProductsApi();
-      console.log(data);
-      dispatch(setProducts(data));
+      dispatch(setProducts(data.data));
     } catch (e) {
       console.log(e);
-      dispatch(setError('error'));
+      //   dispatch(setError('error'));
     }
   };
 };
