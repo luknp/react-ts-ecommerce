@@ -1,12 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from 'redux/store';
-import { fetchProductsApi } from 'services/fakeProductsApi';
-import { Product, ProductVariant } from 'types';
+import { fetchProductsApi, fetchCategoriesApi } from 'services/fakeProductsApi';
+import { Product, ProductVariant, FiltersParams, Category } from 'types';
 
 interface ProductsState {
   products: Array<Product>;
   variants: Array<ProductVariant>;
   variantsProducts: Array<Product>;
+
+  categories: Array<Category>;
+  categoriesObj: Array<Category>; //todelete
+  filtersParams: FiltersParams;
+
   isLoading: boolean;
   fetchError: string | null;
 }
@@ -15,6 +20,9 @@ const initialState: ProductsState = {
   products: [],
   variants: [],
   variantsProducts: [],
+  categories: [],
+  categoriesObj: [],
+  filtersParams: {},
   isLoading: false,
   fetchError: null,
 };
@@ -40,6 +48,14 @@ const productsSlice = createSlice({
       state.isLoading = false;
       state.fetchError = null;
     },
+    setCategories: (state, action: PayloadAction<any>) => {
+      const data = action.payload;
+      console.log(data);
+      state.categories = data.categories;
+      state.categoriesObj = data.categoriesObj;
+      state.isLoading = false;
+      state.fetchError = null;
+    },
   },
 });
 
@@ -56,6 +72,18 @@ export const fetchProducts = (filterParams: string): AppThunk => {
   };
 };
 
-export const { setLoading, setError, setProducts } = productsSlice.actions;
+export const fetchCategories = (): AppThunk => {
+  return async dispatch => {
+    try {
+      const data = await fetchCategoriesApi();
+      dispatch(setCategories(data.data));
+    } catch (e) {
+      console.log(e);
+      //   dispatch(setError('error'));
+    }
+  };
+};
+
+export const { setLoading, setError, setProducts, setCategories } = productsSlice.actions;
 export const selectProductsState = (state: RootState) => state.products;
 export default productsSlice.reducer;
