@@ -48,7 +48,7 @@ export default function ProjectsActionCard({ filterValue, setFilterValue, isMobi
   // };
 
   const handleFilters = () => {
-    history.push(`/app/shop/filters`);
+    history.push(`/filters`);
   };
 
   return (

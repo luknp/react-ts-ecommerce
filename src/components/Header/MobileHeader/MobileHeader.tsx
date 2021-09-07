@@ -23,15 +23,14 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
     handleRedirectsToSearch,
     handleClickSuggestedPhrase,
   } = useSearchHeader(searchInitPhrase);
-  const { handleFullPageUrlQuery, closePageFlag } = useMobileFullPage(isSearchActive, 'mobile-search');
+  const { handleFullPageUrlQuery, allowBackHistory, handleBackHistory } = useMobileFullPage(isSearchActive, 'mobile-search', () =>
+    setIsSearchActive(false),
+  );
 
   const handleSetIsSearchActive = (isSearchActive: boolean) => {
     handleFullPageUrlQuery(isSearchActive);
+    setIsSearchActive(isSearchActive);
   };
-
-  if (closePageFlag) {
-    handleSetIsSearchActive(false);
-  }
 
   return (
     <>
@@ -42,6 +41,8 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
             searchPhrase={searchPhrase}
             handleSetSearchPhrase={(searchPhrase: string) => setSearchPhrase(searchPhrase)}
             handleSetIsSearchActive={handleSetIsSearchActive}
+            allowBackHistory={allowBackHistory}
+            handleBackHistory={handleBackHistory}
           />
         </div>
       </div>

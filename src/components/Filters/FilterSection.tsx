@@ -11,6 +11,8 @@ import { selectProductsState /*, pushFilters,  buildQueryParamsString */ } from 
 import { useHistory } from 'react-router-dom';
 import { IconButton } from '@material-ui/core';
 import FilterCategories from './FilterCategories';
+import { useMediaQuery } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import './style.scss';
 
 const validationSchema = yup.object({
@@ -34,6 +36,8 @@ export default function FilterSection() {
   const dispatch = useDispatch();
   const { filtersParams } = useSelector(selectProductsState);
   const history = useHistory();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
   const expandSubCategory = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLDivElement;
@@ -176,6 +180,21 @@ export default function FilterSection() {
             </div>
           </div>
         </div>
+        {isMobile && (
+          <div className='button-section'>
+            <Button
+              size='large'
+              color='primary'
+              variant='contained'
+              fullWidth
+              className={classes.submitBtn}
+              type='submit'
+              // disabled={submitLoading}
+            >
+              Pokaż (433)
+            </Button>
+          </div>
+        )}
       </form>
     </div>
   );
