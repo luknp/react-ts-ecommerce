@@ -98,3 +98,91 @@ const variants = [
 export function fetchProductsApi() {
   return new Promise<{ data: any }>(resolve => setTimeout(() => resolve({ data: { products, variantsProducts, variants } }), 1000));
 }
+
+const categories = [
+  [
+    {
+      id: 1,
+      nestedLvl: 0,
+      name: 'Eletronika',
+      parentId: 0,
+      sub: [],
+    },
+    {
+      id: 5,
+      nestedLvl: 0,
+      name: 'Motoryzacja',
+      parentId: 0,
+      sub: [],
+    },
+  ],
+  [
+    {
+      id: 2,
+      nestedLvl: 1,
+      name: 'Telefony i akcesoria',
+      parentId: 1,
+      sub: [],
+    },
+  ],
+  [
+    {
+      id: 3,
+      nestedLvl: 2,
+      name: 'Smartfony',
+      parentId: 2,
+      sub: [],
+    },
+    {
+      id: 4,
+      nestedLvl: 2,
+      name: 'Smartwatche',
+      parentId: 2,
+      sub: [],
+    },
+  ],
+];
+
+const categoriesObj = [
+  {
+    id: 1,
+    nestedLvl: 0,
+    name: 'Eletronika',
+    parentId: 0,
+    sub: [
+      {
+        id: 2,
+        nestedLvl: 1,
+        name: 'Telefony i akcesoria',
+        parentId: 1,
+        sub: [
+          {
+            id: 3,
+            nestedLvl: 2,
+            name: 'Smartfony',
+            parentId: 2,
+            sub: [],
+          },
+          {
+            id: 4,
+            nestedLvl: 2,
+            name: 'Smartwatche',
+            parentId: 2,
+            sub: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 5,
+    nestedLvl: 0,
+    name: 'Motoryzacja',
+    parentId: 0,
+    sub: [],
+  },
+];
+
+export function fetchCategoriesApi() {
+  return new Promise<{ data: any }>(resolve => setTimeout(() => resolve({ data: { categories, categoriesObj } }), 1000));
+}

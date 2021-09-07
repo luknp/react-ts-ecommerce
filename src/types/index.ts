@@ -20,3 +20,17 @@ export interface ProductVariant {
   productsId: Array<number>;
   shortDesc: Array<string>;
 }
+
+export interface FiltersParams {
+  [key: string]: any;
+}
+
+export interface Category {
+  id: number;
+  nestedLvl: number;
+  name: string;
+  parentId: number;
+  sub: Array<Category>;
+}
+
+export type ProductsSortValues = 'newest' | 'oldest' | 'a-z' | 'z-a' | 'most-bugs' | 'least-bugs' | 'most-members' | 'least-members';

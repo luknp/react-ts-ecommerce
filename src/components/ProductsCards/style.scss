@@ -1,0 +1,10 @@
+.filters-list-cols {
+  display: flex;
+  .filters-col {
+    width: 300px;
+    margin-right: 1rem;
+    .filter-col-backgroung {
+      background-color: var(--color-background-paper);
+    }
+  }
+}
