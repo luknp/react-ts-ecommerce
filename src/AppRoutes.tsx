@@ -6,6 +6,7 @@ import ProductsList from 'pages/ProductsList';
 import MainPage from 'pages/MainPage';
 import Header from 'components/Header';
 import FilterSection from 'components/Filters/FilterSection';
+import Footer from 'components/Footer';
 
 function AppRoutes() {
   return (
@@ -30,6 +31,7 @@ function AppRoutes() {
           </Route>
         </Switch>
       </div>
+      <Footer />
     </>
   );
 }
