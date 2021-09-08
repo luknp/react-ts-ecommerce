@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { showNotification } from 'redux/slices/notificationSlice';
 import { ProductPhrase } from 'components/MobileSearchSuggestions/MobileSearchSuggestions';
+import { useAppDispatch } from 'redux/hooks';
+import { pushFilters } from 'redux/slices/productsSlice';
 
 const useSearchHeader = (searchInitPhrase: string, handleSetIsSearchActive?: (isSearchActive: boolean) => void) => {
   const [searchPhrase, setSearchPhrase] = useState(searchInitPhrase);
@@ -10,9 +11,10 @@ const useSearchHeader = (searchInitPhrase: string, handleSetIsSearchActive?: (is
 
   const history = useHistory();
   const { pathname } = history.location;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleRedirectsToSearch = (searchPhrase: string) => {
+    dispatch(pushFilters({ search: searchPhrase }));
     history.push(`${pathname}?search=${searchPhrase}`);
   };
 

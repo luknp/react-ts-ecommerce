@@ -56,6 +56,19 @@ const productsSlice = createSlice({
       state.isLoading = false;
       state.fetchError = null;
     },
+    pushFilters: (state, action: PayloadAction<{ [k: string]: any }>) => {
+      const newFilters = action.payload;
+      const filters = state.filtersParams;
+      Object.keys(newFilters).forEach(key => {
+        filters[key] = newFilters[key];
+        if (filters[key] === undefined || filters[key] === '') {
+          delete filters[key];
+        }
+      });
+    },
+    removeFilter: (state, action: PayloadAction<string>) => {
+      delete state.filtersParams[action.payload];
+    },
   },
 });
 
@@ -84,6 +97,6 @@ export const fetchCategories = (): AppThunk => {
   };
 };
 
-export const { setLoading, setError, setProducts, setCategories } = productsSlice.actions;
+export const { setLoading, setError, setProducts, setCategories, pushFilters, removeFilter } = productsSlice.actions;
 export const selectProductsState = (state: RootState) => state.products;
 export default productsSlice.reducer;
