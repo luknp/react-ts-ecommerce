@@ -21,7 +21,11 @@ const useStyles = makeStyles({
   },
 });
 
-function ProductsCards() {
+interface Props {
+  queryString: string;
+}
+
+export default function ProductsCards({ queryString }: Props) {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const [filterValue, setFilterValue] = useState('');
@@ -30,9 +34,10 @@ function ProductsCards() {
   const { isLoading, fetchError, products, variants } = useAppSelector(selectProductsState);
 
   useEffect(() => {
-    dispatch(fetchProducts('some filters in future'));
+    console.log(queryString);
+    dispatch(fetchProducts(queryString));
     dispatch(fetchCategories());
-  }, []);
+  }, [queryString]);
 
   if (isLoading) {
     return (
@@ -76,5 +81,3 @@ function ProductsCards() {
     </>
   );
 }
-
-export default ProductsCards;

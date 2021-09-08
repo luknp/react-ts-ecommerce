@@ -26,7 +26,7 @@ function ProductsList() {
 
   return (
     <>
-      <ProductsCards />
+      <ProductsCards queryString={queryStringData} />
     </>
   );
 }
