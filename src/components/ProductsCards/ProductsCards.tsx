@@ -38,19 +38,6 @@ export default function ProductsCards({ queryString }: Props) {
     dispatch(fetchCategories());
   }, [queryString]);
 
-  if (isLoading) {
-    return (
-      <div className={classes.root}>
-        <PageHeader title='Products' description='List of searched products' />
-        {[...Array(10)].map((e, i) => (
-          <div key={i} className={classes.placeholder}>
-            <ProductCardSkeleton />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   if (fetchError) {
     return (
       <div>
@@ -72,9 +59,13 @@ export default function ProductsCards({ queryString }: Props) {
         )}
         <div>
           <ProductsActionCard filterValue={filterValue} setFilterValue={setFilterValue} isMobile={isMobile} />
-          {products.map(product => (
-            <ProductCard product={product} key={product.id} />
-          ))}
+          {isLoading
+            ? [...Array(10)].map((e, i) => (
+                <div key={i} className={classes.placeholder}>
+                  <ProductCardSkeleton />
+                </div>
+              ))
+            : products.map(product => <ProductCard product={product} key={product.id} />)}
         </div>
       </div>
     </>
