@@ -14,7 +14,7 @@ import FilterCategories from './FilterCategories';
 import { useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { buildQueryParamsString } from 'utils';
-
+import CloseIcon from '@material-ui/icons/Close';
 import './style.scss';
 
 const validationSchema = yup.object({
@@ -62,8 +62,17 @@ export default function FilterSection() {
     history.push(`/products/list?${buildQueryParamsString(filtersParams)}`);
   };
 
+  const handleClose = (data: any) => {
+    history.goBack();
+  };
+
   return (
     <div className='filter-section-root'>
+      {isMobile && (
+        <IconButton color='inherit' onClick={handleClose} className='mobile-close-page'>
+          <CloseIcon fontSize='large' />
+        </IconButton>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className='filters-container'>
         <div className='filter-container'>
           <div className='header'>
@@ -76,7 +85,6 @@ export default function FilterSection() {
             <FilterCategories />
           </div>
         </div>
-
         <div className='filter-container'>
           <div className='header'>
             <p className='name'>Cena</p>
@@ -181,8 +189,17 @@ export default function FilterSection() {
           </div>
         </div>
         <div className={`${isMobile && 'button-section'}`}>
-          <Button size='large' color='primary' variant='contained' fullWidth className={classes.submitBtn} type='submit'>
-            Pokaż (433)
+          <Button
+            size='large'
+            color='primary'
+            variant='contained'
+            style={{
+              width: '80%',
+            }}
+            className={classes.submitBtn}
+            type='submit'
+          >
+            Show (433)
           </Button>
         </div>
       </form>

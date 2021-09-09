@@ -31,10 +31,13 @@
   }
   .button-section {
     position: fixed;
-    bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 0;
     left: 0;
     width: 100%;
-    padding: 0 1rem;
+    opacity: 0.8;
   }
 }
 
@@ -66,4 +69,8 @@
 }
 
 .filter-section-root {
+  .mobile-close-page {
+    margin-left: 85%;
+  }
+  padding-bottom: 6rem;
 }

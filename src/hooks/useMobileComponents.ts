@@ -7,6 +7,7 @@ import { useTheme } from '@material-ui/core/styles';
 const useMobileComponents = () => {
   const [isHide, setIsHide] = useState(true);
   const [allowDisplay, setAllowDisplay] = useState(true);
+  const [allowDisplayMobileHeader, setAllowDisplayMobileHeader] = useState(true);
   const history = useHistory();
   const { search } = useLocation();
   const { pathname } = history.location;
@@ -14,9 +15,16 @@ const useMobileComponents = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
+  const handleAllowDisplayMobileHeader = () => {
+    if (pathname === '/filters') {
+      setAllowDisplayMobileHeader(false);
+    } else {
+      setAllowDisplayMobileHeader(true);
+    }
+  };
+
   useEffect(() => {
     const searchUrlKey = 'mobile-search=true';
-
     console.log(`pathname: ${pathname}`);
     if (pathname === '/filters') {
       console.log(pathname);
@@ -26,6 +34,7 @@ const useMobileComponents = () => {
     } else {
       setIsHide(false);
     }
+    handleAllowDisplayMobileHeader();
   }, [pathname, search]);
 
   useEffect(() => {
@@ -37,7 +46,7 @@ const useMobileComponents = () => {
     }
   }, [isHide, isMobile]);
 
-  return { allowDisplay, isMobile };
+  return { allowDisplay, isMobile, allowDisplayMobileHeader };
 };
 
 export default useMobileComponents;
