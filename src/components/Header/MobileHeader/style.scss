@@ -17,6 +17,7 @@
   height: 100vh;
   width: 100%;
   position: fixed;
+  z-index: 100;
   .allow-scroll {
     height: 80vh;
     overflow-y: auto;

@@ -10,3 +10,23 @@ export const buildFiltersObjFromQueryParams = (queryParams: string): { [k: strin
   });
   return resObj;
 };
+
+export const buildQueryParamsString = (filtersParams: { [k: string]: any }): string => {
+  const data = JSON.parse(JSON.stringify(filtersParams));
+  const searchParams = new URLSearchParams();
+  let key = 'search';
+  if (data[key]) {
+    searchParams.append(key, data[key]);
+    delete data[key];
+  }
+  key = 'category';
+  if (data[key]) {
+    searchParams.append(key, data[key]);
+    delete data[key];
+  }
+  Object.keys(data).forEach(k => {
+    searchParams.append(k, data[k]);
+  });
+  const res = searchParams.toString();
+  return res;
+};

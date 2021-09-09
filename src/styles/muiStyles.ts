@@ -78,7 +78,7 @@ export const useActionCardStyles = makeStyles(
 export const useFormStyles = makeStyles(
   theme => ({
     submitBtn: {
-      marginTop: '1.5em',
+      margin: '1.5em 0',
       height: '3.2em',
     },
     avatar: {

@@ -10,7 +10,6 @@ import ProductCard from './ProductCard';
 import { useTheme } from '@material-ui/core/styles';
 import { useMediaQuery } from '@material-ui/core';
 import './style.scss';
-import { Divider } from 'material-ui';
 
 const useStyles = makeStyles({
   root: {

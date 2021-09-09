@@ -7,8 +7,10 @@ import MainPage from 'pages/MainPage';
 import Header from 'components/Header';
 import FilterSection from 'components/Filters/FilterSection';
 import Footer from 'components/Footer';
+import useMobileComponents from 'hooks/useMobileComponents';
 
 function AppRoutes() {
+  const { allowDisplay } = useMobileComponents();
   return (
     <>
       <Header />
@@ -31,7 +33,7 @@ function AppRoutes() {
           </Route>
         </Switch>
       </div>
-      <Footer />
+      {allowDisplay && <Footer />}
     </>
   );
 }

@@ -6,6 +6,7 @@ import MobileButtomMenu from 'components/MobileButtomMenu';
 import { searchSuggestions } from 'components/Header/mocks';
 import useMobileFullPage from 'hooks/useMobileFullPage';
 import useSearchHeader from 'components/Header/useSearchHeader';
+import useMobileComponents from 'hooks/useMobileComponents';
 
 import './style.scss';
 
@@ -26,6 +27,7 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
   const { handleFullPageUrlQuery, allowBackHistory, handleBackHistory } = useMobileFullPage(isSearchActive, 'mobile-search', () =>
     setIsSearchActive(false),
   );
+  const { allowDisplay } = useMobileComponents();
 
   const handleSetIsSearchActive = (isSearchActive: boolean) => {
     handleFullPageUrlQuery(isSearchActive);
@@ -60,7 +62,7 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
           </div>
         </div>
       )}
-      {!isSearchActive && <MobileButtomMenu />}
+      {allowDisplay && <MobileButtomMenu />}
       {false && (
         <ConfirmDialog
           title='Confirm Delete Cart'

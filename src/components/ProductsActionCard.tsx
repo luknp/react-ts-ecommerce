@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import TuneIcon from '@material-ui/icons/Tune';
 import Button from '@material-ui/core/Button';
@@ -10,6 +10,8 @@ import SortBar from 'components/SortBar';
 import { ProductsSortValues } from 'types';
 // import { sortProjectsBy, selectProjectsState } from '../../redux/slices/projectsSlice';
 import { useActionCardStyles } from 'styles/muiStyles';
+import { removeFilter } from 'redux/slices/productsSlice';
+import { buildQueryParamsString } from 'utils';
 
 const menuItems = [
   { value: 'newest', label: 'Newest' },
@@ -30,22 +32,23 @@ interface Props {
 
 export default function ProjectsActionCard({ filterValue, setFilterValue, isMobile }: Props) {
   const classes = useActionCardStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // const { sortBy } = useSelector(selectProjectsState);
-  const { filtersParams } = useSelector(selectProductsState);
+  const { filtersParams } = useAppSelector(selectProductsState);
   const history = useHistory();
+  const { pathname } = history.location;
 
   const handleSortChange = (e: React.ChangeEvent<{ value: unknown }>) => {
     const selectedValue = e.target.value as ProductsSortValues;
     // dispatch(sortProjectsBy(selectedValue));
   };
 
-  // const handleDelete = (key: string) => {
-  //   dispatch(removeFilter(key));
-  //   const newFilterParams = JSON.parse(JSON.stringify(filtersParams));
-  //   delete newFilterParams[key];
-  //   history.push(`/app/shop/products/list?${buildQueryParamsString(newFilterParams)}`);
-  // };
+  const handleDelete = (key: string) => {
+    const newFilterParams = JSON.parse(JSON.stringify(filtersParams));
+    delete newFilterParams[key];
+    dispatch(removeFilter(key));
+    history.push(`${pathname}?${buildQueryParamsString(newFilterParams)}`);
+  };
 
   const handleFilters = () => {
     history.push(`/filters`);
@@ -75,37 +78,14 @@ export default function ProjectsActionCard({ filterValue, setFilterValue, isMobi
       <div className='filter-flex'>
         {Object.entries(filtersParams).map(key => (
           <Chip
-            key={Date.now()}
+            key={key[0]}
             label={`${key[0]}: ${key[1]}`}
-            // onDelete={() => handleDelete(key[0])}
+            onDelete={() => handleDelete(key[0])}
             color='primary'
             variant='outlined'
-            style={{ marginLeft: '0.5rem' }}
+            style={{ margin: '0 0 0.5rem 0.5rem' }}
           />
         ))}
-      </div>
-      <div className='filter-flex'>
-        <Chip
-          label='Elektronika'
-          // onDelete={handleDelete}
-          color='primary'
-          variant='outlined'
-          style={{ margin: '0.5rem 0 0 0.5rem' }}
-        />
-        <Chip
-          label='Cena od 1222 do 9999'
-          // onDelete={handleDelete}
-          color='primary'
-          variant='outlined'
-          style={{ margin: '0.5rem 0 0 0.5rem' }}
-        />
-        <Chip
-          label='Strzelce Opolskie +100km'
-          // onDelete={handleDelete}
-          color='primary'
-          variant='outlined'
-          style={{ margin: '0.5rem 0 0 0.5rem' }}
-        />
       </div>
     </div>
   );

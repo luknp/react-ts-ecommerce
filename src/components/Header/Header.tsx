@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import MobileHeader from 'components/Header/MobileHeader';
 import DesktopHeader from 'components/Header/DesktopHeader';
-import MobileButtomMenu from 'components/MobileButtomMenu';
-import ProductsCards from 'components/ProductsCards';
 import { useTheme } from '@material-ui/core/styles';
 import { useMediaQuery } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
