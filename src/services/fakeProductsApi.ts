@@ -61,6 +61,46 @@ const products = [
     currency: 'zł',
     photo: 'https://a.allegroimg.com/s180/11fb79/c0855995424dabf90111465ddba4/SMARTFON-ARCHOS-40-NEON-4-5MPx-4x1-3GHz-DUAL-SIM',
   },
+  {
+    id: 444,
+    name: 'Samsung Galaxy 10 XXX 6/128GB',
+    kategory: 'smartphones',
+    rating: 2.5,
+    opinions,
+    shortDesc: 'woda mineral opiss hsiozf',
+    parameters: [
+      'Wyświetlacz 6.7, 3200 x 1440px, Dynamic AMOLED',
+      'Procesor Exynos 990, Ośmiordzeniowy',
+      'Pamięć RAM 8 GB Pamięć wbudowana [GB] 128',
+      'Aparat Tylny 64 Mpx + 2 x 12 Mpx, Przedni 10 Mpx',
+    ],
+    price: 199.99,
+    promotion: 299.99,
+    available: 4,
+    unit: 'items',
+    currency: 'zł',
+    photo: 'https://a.allegroimg.com/s180/11fb79/c0855995424dabf90111465ddba4/SMARTFON-ARCHOS-40-NEON-4-5MPx-4x1-3GHz-DUAL-SIM',
+  },
+  {
+    id: 555,
+    name: 'Samsung Galaxy 10 XXX 6/128GB',
+    kategory: 'smartphones',
+    rating: 2.5,
+    opinions,
+    shortDesc: 'woda mineral opiss hsiozf',
+    parameters: [
+      'Wyświetlacz 6.7, 3200 x 1440px, Dynamic AMOLED',
+      'Procesor Exynos 990, Ośmiordzeniowy',
+      'Pamięć RAM 8 GB Pamięć wbudowana [GB] 128',
+      'Aparat Tylny 64 Mpx + 2 x 12 Mpx, Przedni 10 Mpx',
+    ],
+    price: 199.99,
+    promotion: 299.99,
+    available: 4,
+    unit: 'items',
+    currency: 'zł',
+    photo: 'https://a.allegroimg.com/s180/11fb79/c0855995424dabf90111465ddba4/SMARTFON-ARCHOS-40-NEON-4-5MPx-4x1-3GHz-DUAL-SIM',
+  },
 ];
 
 const variantsProducts = [
@@ -97,4 +137,92 @@ const variants = [
 
 export function fetchProductsApi() {
   return new Promise<{ data: any }>(resolve => setTimeout(() => resolve({ data: { products, variantsProducts, variants } }), 1000));
+}
+
+const categories = [
+  [
+    {
+      id: 1,
+      nestedLvl: 0,
+      name: 'Eletronika',
+      parentId: 0,
+      sub: [],
+    },
+    {
+      id: 5,
+      nestedLvl: 0,
+      name: 'Motoryzacja',
+      parentId: 0,
+      sub: [],
+    },
+  ],
+  [
+    {
+      id: 2,
+      nestedLvl: 1,
+      name: 'Telefony i akcesoria',
+      parentId: 1,
+      sub: [],
+    },
+  ],
+  [
+    {
+      id: 3,
+      nestedLvl: 2,
+      name: 'Smartfony',
+      parentId: 2,
+      sub: [],
+    },
+    {
+      id: 4,
+      nestedLvl: 2,
+      name: 'Smartwatche',
+      parentId: 2,
+      sub: [],
+    },
+  ],
+];
+
+const categoriesObj = [
+  {
+    id: 1,
+    nestedLvl: 0,
+    name: 'Eletronika',
+    parentId: 0,
+    sub: [
+      {
+        id: 2,
+        nestedLvl: 1,
+        name: 'Telefony i akcesoria',
+        parentId: 1,
+        sub: [
+          {
+            id: 3,
+            nestedLvl: 2,
+            name: 'Smartfony',
+            parentId: 2,
+            sub: [],
+          },
+          {
+            id: 4,
+            nestedLvl: 2,
+            name: 'Smartwatche',
+            parentId: 2,
+            sub: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 5,
+    nestedLvl: 0,
+    name: 'Motoryzacja',
+    parentId: 0,
+    sub: [],
+  },
+];
+
+export function fetchCategoriesApi() {
+  return new Promise<{ data: any }>(resolve => setTimeout(() => resolve({ data: { categories, categoriesObj } }), 1000));
 }

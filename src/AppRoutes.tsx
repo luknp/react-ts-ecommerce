@@ -5,8 +5,12 @@ import NotFoundPage from 'pages/NotFound';
 import ProductsList from 'pages/ProductsList';
 import MainPage from 'pages/MainPage';
 import Header from 'components/Header';
+import FilterSection from 'components/Filters/FilterSection';
+import Footer from 'components/Footer';
+import useMobileComponents from 'hooks/useMobileComponents';
 
 function AppRoutes() {
+  const { allowDisplay } = useMobileComponents();
   return (
     <>
       <Header />
@@ -21,11 +25,15 @@ function AppRoutes() {
           <Route exact path='/'>
             <MainPage />
           </Route>
+          <Route exact path='/filters'>
+            <FilterSection />
+          </Route>
           <Route>
             <NotFoundPage />
           </Route>
         </Switch>
       </div>
+      {allowDisplay && <Footer />}
     </>
   );
 }

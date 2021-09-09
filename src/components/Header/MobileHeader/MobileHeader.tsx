@@ -6,6 +6,7 @@ import MobileButtomMenu from 'components/MobileButtomMenu';
 import { searchSuggestions } from 'components/Header/mocks';
 import useMobileFullPage from 'hooks/useMobileFullPage';
 import useSearchHeader from 'components/Header/useSearchHeader';
+import useMobileComponents from 'hooks/useMobileComponents';
 
 import './style.scss';
 
@@ -23,15 +24,15 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
     handleRedirectsToSearch,
     handleClickSuggestedPhrase,
   } = useSearchHeader(searchInitPhrase);
-  const { handleFullPageUrlQuery, closePageFlag } = useMobileFullPage(isSearchActive, 'mobile-search');
+  const { handleFullPageUrlQuery, allowBackHistory, handleBackHistory } = useMobileFullPage(isSearchActive, 'mobile-search', () =>
+    setIsSearchActive(false),
+  );
+  const { allowDisplay } = useMobileComponents();
 
   const handleSetIsSearchActive = (isSearchActive: boolean) => {
     handleFullPageUrlQuery(isSearchActive);
+    setIsSearchActive(isSearchActive);
   };
-
-  if (closePageFlag) {
-    handleSetIsSearchActive(false);
-  }
 
   return (
     <>
@@ -42,6 +43,8 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
             searchPhrase={searchPhrase}
             handleSetSearchPhrase={(searchPhrase: string) => setSearchPhrase(searchPhrase)}
             handleSetIsSearchActive={handleSetIsSearchActive}
+            allowBackHistory={allowBackHistory}
+            handleBackHistory={handleBackHistory}
           />
         </div>
       </div>
@@ -59,7 +62,7 @@ export default function MobileHeader({ searchInitPhrase }: Props) {
           </div>
         </div>
       )}
-      {!isSearchActive && <MobileButtomMenu />}
+      {allowDisplay && <MobileButtomMenu />}
       {false && (
         <ConfirmDialog
           title='Confirm Delete Cart'

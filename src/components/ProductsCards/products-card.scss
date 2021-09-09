@@ -1,7 +1,7 @@
 .product-list-root-container {
   display: flex;
   // width: 100%;
-  margin: 1rem 0;
+  margin: 0.2rem 0;
   padding-left: 0.5rem;
   color: var(--color-text-primary);
   background-color: var(--color-background-paper);
@@ -199,6 +199,7 @@
     align-self: stretch;
     .photo-container {
       width: 20%;
+      max-width: 150px;
     }
     .info-container {
       padding: 0 1rem;
