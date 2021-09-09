@@ -57,7 +57,7 @@ export default function ProductsCards({ queryString }: Props) {
             </div>
           </div>
         )}
-        <div>
+        <div style={{ width: '100%' }}>
           <ProductsActionCard filterValue={filterValue} setFilterValue={setFilterValue} isMobile={isMobile} />
           {isLoading
             ? [...Array(10)].map((e, i) => (

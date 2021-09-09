@@ -10,7 +10,7 @@ import Footer from 'components/Footer';
 import useMobileComponents from 'hooks/useMobileComponents';
 
 function AppRoutes() {
-  const { allowDisplay } = useMobileComponents();
+  const { allowDisplay, isMobile } = useMobileComponents();
   return (
     <>
       <Header />
@@ -33,7 +33,7 @@ function AppRoutes() {
           </Route>
         </Switch>
       </div>
-      {allowDisplay && <Footer />}
+      {(!isMobile || allowDisplay) && <Footer />}
     </>
   );
 }
