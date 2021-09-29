@@ -3,6 +3,8 @@ import AppRoutes from 'AppRoutes';
 import { ThemeProvider } from '@material-ui/core/styles';
 import customTheme, { saveColorsIntoCss } from 'styles/customTheme';
 import ToastNotification from 'components/ToastNotification';
+import { lazy, Suspense } from 'react';
+import { Styles } from 'styles/styled-components';
 import 'styles/utility_classes.scss';
 
 function App() {
@@ -12,10 +14,13 @@ function App() {
   }, [darkMode]);
 
   return (
-    <ThemeProvider theme={customTheme(darkMode)}>
-      <AppRoutes />
-      <ToastNotification />
-    </ThemeProvider>
+    <Suspense fallback={null}>
+      <ThemeProvider theme={customTheme(darkMode)}>
+        <Styles />
+        <AppRoutes />
+        <ToastNotification />
+      </ThemeProvider>
+    </Suspense>
   );
 }
 export default App;

@@ -59,7 +59,7 @@ export default function FilterSection() {
   const onSubmit = (data: any) => {
     dispatch(pushFilters(data));
     console.log(pathname);
-    history.push(`/products/list?${buildQueryParamsString(filtersParams)}`);
+    history.push(`/products/list?${buildQueryParamsString(data)}`);
   };
 
   const handleClose = (data: any) => {
